@@ -46,7 +46,7 @@ func main() {
 	} else {
 		file, err = os.Open(fileName)
 		if fileName == "" {
-			flag.PrintDefaults()
+			flag.Usage()
 			os.Exit(1)
 		}
 		if err != nil {
