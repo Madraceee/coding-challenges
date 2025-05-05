@@ -47,7 +47,7 @@ func main() {
 		file, err = os.Open(fileName)
 		if fileName == "" {
 			flag.Usage()
-			os.Exit(1)
+			os.Exit(0)
 		}
 		if err != nil {
 			fmt.Printf("Err: %s\n", err)
