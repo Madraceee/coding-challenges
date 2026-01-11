@@ -8,6 +8,7 @@ More features, code improvements will be done periodically
 |---|---|---|
 |Cut| [Link](https://github.com/Madraceee/coding-challenges/tree/main/cut)| Go|
 |Grep| [Link](https://github.com/Madraceee/coding-challenges/tree/main/rgrep)| Rust|
+|Echo| [Link](https://github.com/Madraceee/coding-challenges/tree/main/echo)| C|
 |wc| [Link](https://github.com/Madraceee/coding-challenges/tree/main/wc) | Go|
 
 Instead of sticking to one language, I will use multiple languages to explore each one of them.
