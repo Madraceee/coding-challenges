@@ -10,3 +10,4 @@ More features, code improvements will be done periodically
 |Grep| [Link](https://github.com/Madraceee/coding-challenges/tree/main/rgrep)| Rust|
 |Echo| [Link](https://github.com/Madraceee/coding-challenges/tree/main/echo)| C|
 |wc| [Link](https://github.com/Madraceee/coding-challenges/tree/main/wc) | Go|
+|huffman-encoding-decoding| [Link](https://github.com/Madraceee/coding-challenges/tree/main/huffman-encoder-decoder) | Go |
