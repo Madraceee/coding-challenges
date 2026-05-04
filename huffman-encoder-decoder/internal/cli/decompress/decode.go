@@ -10,13 +10,13 @@ import (
 )
 
 func Decode(inputFileName, outputFileName string) error {
-	file, err := os.Open(inputFileName)
+	inFile, err := os.Open(inputFileName)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer inFile.Close()
 
-	reader := bufio.NewReader(file)
+	reader := bufio.NewReader(inFile)
 	charByMask, err := header.DecodeHeader(reader)
 	if err != nil {
 		fmt.Println("ERROR DECODING " + err.Error())
@@ -30,11 +30,11 @@ func Decode(inputFileName, outputFileName string) error {
 
 	outFile, err := os.Create(outputFileName)
 	if err != nil {
-		fmt.Printf("Error creating new file " + err.Error())
-		os.Exit(1)
+		return err
 	}
-	writer := bufio.NewWriter(outFile)
+	defer outFile.Close()
 
+	writer := bufio.NewWriter(outFile)
 	node := searchTree
 	for {
 		b, err := reader.ReadByte()
@@ -42,33 +42,22 @@ func Decode(inputFileName, outputFileName string) error {
 			break
 		}
 
-		byteMask := ""
-		for range 8 {
-			if b&1 == 1 {
-				byteMask = "1" + byteMask
-			} else {
-				byteMask = "0" + byteMask
-			}
-			b = b >> 1
-		}
-
-		for _, m := range byteMask {
-			if m == '0' {
-				node = node.Children[0]
-			} else {
+		for i := range 8 {
+			bit := b >> (7 - i)
+			if bit&1 == 1 {
 				node = node.Children[1]
+			} else {
+				node = node.Children[0]
 			}
 
 			if node == nil {
-				os.Exit(5)
+				return fmt.Errorf("Malformed Header")
 			}
 
 			if node.IsEnd {
 				if _, err := writer.WriteRune(node.Value); err != nil {
-					fmt.Printf("Error writing to file " + err.Error())
-					os.Exit(1)
+					return err
 				}
-
 				node = searchTree
 			}
 		}
@@ -78,7 +67,5 @@ func Decode(inputFileName, outputFileName string) error {
 	if err := writer.Flush(); err != nil {
 		return err
 	}
-	outFile.Close()
-	file.Close()
 	return nil
 }

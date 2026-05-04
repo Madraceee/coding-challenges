@@ -32,13 +32,13 @@ func Encode(inputFileName, outputFileName string) error {
 			Count: v,
 		})
 	}
-	q := pq.PQ{Arr: charCountArr}
-	heap.Init(&q)
+	prefixTree := pq.PQ{Arr: charCountArr}
+	heap.Init(&prefixTree)
 
-	// Prefix table / tree
-	for q.Len() > 1 {
-		first := heap.Pop(&q).(*pq.CharCount)
-		second := heap.Pop(&q).(*pq.CharCount)
+	// Prefix tree
+	for prefixTree.Len() > 1 {
+		first := heap.Pop(&prefixTree).(*pq.CharCount)
+		second := heap.Pop(&prefixTree).(*pq.CharCount)
 
 		parentNode := &pq.CharCount{
 			Count: first.Count + second.Count,
@@ -52,10 +52,10 @@ func Encode(inputFileName, outputFileName string) error {
 			parentNode.Right = first
 		}
 
-		heap.Push(&q, parentNode)
+		heap.Push(&prefixTree, parentNode)
 	}
 
-	root := heap.Pop(&q).(*pq.CharCount)
+	root := heap.Pop(&prefixTree).(*pq.CharCount)
 	postOrder(root, "")
 	maskByChar := make(map[rune]string)
 	getMaskByChar(root, maskByChar)
@@ -72,16 +72,15 @@ func Encode(inputFileName, outputFileName string) error {
 		return err
 	}
 
-	reader := bufio.NewReader(file)
-
 	// Write Header
-	if err := header.WriteHeader(outFile, maskByChar); err != nil {
+	if err := header.WriteHeader(bufio.NewWriter(outFile), maskByChar); err != nil {
 		return err
 	}
 
 	// Write body
 	var currByte byte
 	var bitCount int
+	reader := bufio.NewReader(file)
 	for {
 		r, _, err := reader.ReadRune()
 		if err != nil {

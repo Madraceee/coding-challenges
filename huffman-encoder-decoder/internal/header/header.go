@@ -4,11 +4,9 @@ import (
 	"bufio"
 	"encoding/binary"
 	"fmt"
-	"os"
 )
 
-func WriteHeader(file *os.File, maskByChar map[rune]string) error {
-	writer := bufio.NewWriter(file)
+func WriteHeader(writer *bufio.Writer, maskByChar map[rune]string) error {
 
 	for key, mask := range maskByChar {
 		writer.WriteRune(key)

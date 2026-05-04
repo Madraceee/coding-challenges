@@ -21,22 +21,24 @@ var rootCmd = &cobra.Command{
 }
 
 var encodeCmd = &cobra.Command{
-	Use:  "compress",
-	Args: cobra.ExactArgs(2),
+	Use:   "compress",
+	Short: "Compress file",
+	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 2 {
-			return fmt.Errorf("Wrong input\nhuffman-encoder-decoder command [INPUT FILE] [OUTPUT FILE]")
+			return fmt.Errorf("Wrong input\nhuffman-encoder-decoder compress [INPUT FILE] [OUTPUT FILE]")
 		}
 		return compress.Encode(args[0], args[1])
 	},
 }
 
 var decodeCmd = &cobra.Command{
-	Use:  "decompress",
-	Args: cobra.ExactArgs(2),
+	Use:   "decompress",
+	Short: "Decompress file",
+	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) != 2 {
-			return fmt.Errorf("Wrong input\nhuffman-encoder-decoder command [INPUT FILE] [OUTPUT FILE]")
+			return fmt.Errorf("Wrong input\nhuffman-encoder-decoder decompress [INPUT FILE] [OUTPUT FILE]")
 		}
 		return decompress.Decode(args[0], args[1])
 	},
